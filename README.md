@@ -37,15 +37,23 @@ ChromNet/
 			chr2.fa.gz
 			...
 		IMR90/
-			hic_matrix_KR/
+			hic_matrix/
 				chr1.npz
 				chr2.npz
 				...
 			genomic_features/
-                  ctcf_merged_sorted_RPKM_scaled.bw
-                  atac_merged_sorted_RPKM_scaled.bw
+                  ctcf.bw
+                  atac.bw
+
 
 ```
+
+#### Preprocessed Data and Model Weights Download
+
+You can download the preprocessed training dataset for IMR90 and the trained model weights using the following links:
+
+- **Preprocessed Training Dataset for IMR90**: [Download here](https://drive.google.com/file/d/1qderzhKB9yQK2NmQrcVOYTjFLG2ycnkG/view?usp=drive_link)
+- **Trained Model Weights**: [Download here](https://drive.google.com/file/d/1OG9VW8G_zjCO_a-IVuCU-juOsLfbch8r/view?usp=drive_link)
 
 ## Training
 
@@ -83,15 +91,15 @@ bash preprocess_epig_data.sh <output_folder> <sample_name>  <bam_folder>
 Once trained, ChromNet can be used for predicting chromatin interactions in novel cell types. Use the following command to make predictions:
 
 ```bash
-python predict.py --out ./outputs --celltype IMR90 --chr chr1 --start 0 --model ./checkpoints/best_model.ckpt --seq ./train_data/hg38/dna_sequence --ctcf ./train_data/hg38/IMR90/genomic_features/ctcf_merged_sorted_RPKM_scaled.bw --atac ./train_data/hg38/IMR90/genomic_features/atac_merged_sorted_RPKM_scaled.bw
+python predict.py --out ./outputs --celltype IMR90 --chr chr20 --max_len 64444167 --model ./checkpoints/ChromNet_model_weights.ckpt --seq ./train_data/hg38/dna_sequence --ctcf ./train_data/hg38/IMR90/genomic_features/ctcf.bw --atac ./train_data/hg38/IMR90/genomic_features/atac.bw
 ```
 
 ### Prediction Options
 
 - `--out`: Output directory to store the predictions.
 - `--celltype`: Cell type for prediction.
-- `--chr`: Chromosome for prediction (e.g., `chr1`).
-- `--start`: Starting position (bp) for prediction.
+- `--chr`: Chromosome for prediction (e.g., `chr20`).
+- `--max_len`: Max length (bp) for prediction.
 - `--model`: Path to the pre-trained model checkpoint.
 - `--seq`: Path to the DNA sequence `.fa.gz` files.
 - `--ctcf`: Path to the CTCF `.bw` files.
