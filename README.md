@@ -31,21 +31,19 @@ Example directory structure:
 ```text
 ChromNet/
     train_data/
-      hg38/
-		dna_sequence/
-			chr1.fa.gz
-			chr2.fa.gz
-			...
-		IMR90/
-			hic_matrix/
-				chr1.npz
-				chr2.npz
-				...
-			genomic_features/
-                  ctcf.bw
-                  atac.bw
-
-
+        hg38/
+            dna_sequence/
+                chr1.fa.gz
+                chr2.fa.gz
+                ...
+            IMR90/
+                hic_matrix/
+                    chr1.npz
+                    chr2.npz
+                    ...
+                genomic_features/
+                    ctcf.bw
+                    atac.bw
 ```
 
 #### Preprocessed Data and Model Weights Download
