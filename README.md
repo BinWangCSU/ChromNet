@@ -28,7 +28,7 @@ You will need to collect and preprocess epigenetic and DNA sequence data for dif
 
 Example directory structure:
 
-```kotlin
+```text
 ChromNet/
     train_data/
       hg38/
