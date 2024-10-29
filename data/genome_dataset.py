@@ -14,7 +14,7 @@ class GenomeDataset(Dataset):
                        mode = 'train', 
                        include_sequence = True,
                        include_genomic_features = True,
-                       use_aug = False):
+                       use_noise = False):
         self.cell_types = cell_types
         self.data_root = celltype_root
         self.include_sequence = include_sequence
@@ -26,9 +26,9 @@ class GenomeDataset(Dataset):
 
         if not self.include_sequence: print('Not using sequence!')
         if not self.include_genomic_features: print('Not using genomic features!')
-        self.use_aug = use_aug
+        self.use_noise = use_noise
 
-        if mode != 'train': self.use_aug = False # Set augmentation
+        if mode != 'train': self.use_noise = False # Set augmentation
 
         self.chr_names = self.get_chr_names(genome_assembly)
 
@@ -91,14 +91,14 @@ class GenomeDataset(Dataset):
             feat_dict=feat_dicts[idx]
             cell_type=cell_types[idx]
             if cell_type=="IMR90_noise":
-                self.use_aug=True
+                self.use_noise=True
                 celltype_roots = celltype_roots.replace("_noise", "")
             genomic_features = self.load_features(f'{celltype_roots}/genomic_features', feat_dict)
             chr_data_dict[cell_type] = {}
             lengths[cell_type] = []
             print(chr_names)
             for chr_name in chr_names:
-                chr_data_dict[cell_type][chr_name] = ChromosomeDataset(celltype_roots, chr_name, genomic_features, self.use_aug)
+                chr_data_dict[cell_type][chr_name] = ChromosomeDataset(celltype_roots, chr_name, genomic_features, self.use_noise)
                 lengths[cell_type].append(len(chr_data_dict[cell_type][chr_name]))
         print('Chromosome datasets loaded')
         return chr_data_dict, lengths

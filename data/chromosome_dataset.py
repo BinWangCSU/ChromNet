@@ -10,8 +10,8 @@ import data.data_feature as data_feature
 
 
 class ChromosomeDataset(Dataset):
-    def __init__(self, celltype_root, chr_name, feature_list, use_aug = True):
-        self.use_aug = use_aug
+    def __init__(self, celltype_root, chr_name, feature_list, use_noise = True):
+        self.use_noise = use_noise
         self.res = 10000 # 10kb resolution
         self.bins = 209.7152 # 209.7152 bins 2097152 bp
         self.image_scale = 256 # IMPORTANT, scale 210 to 256
@@ -38,13 +38,13 @@ class ChromosomeDataset(Dataset):
         target_size = int(self.bins * self.res)
 
         # Shift Augmentations
-        if self.use_aug: 
+        if self.use_noise: 
             start, end = self.shift_aug(target_size, start, end)
         else:
             start, end = self.shift_fix(target_size, start, end)
         seq, features, mat = self.get_data_at_interval(start, end)
 
-        if self.use_aug:
+        if self.use_noise:
             seq = seq
             # Genomic features
             noisy_features = [self.gaussian_noise(item, 0.1) for item in features]
